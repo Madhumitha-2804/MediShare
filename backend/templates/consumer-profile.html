@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Consumer Profile - MediShare</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+    }
+
+    .navbar {
+      background: #1e88e5;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #1e88e5;
+      margin-bottom: 15px;
+    }
+
+    .info {
+      margin: 10px 0;
+      font-size: 16px;
+    }
+
+    .label {
+      font-weight: bold;
+    }
+
+    .btn {
+      background: #1e88e5;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      background: #1565c0;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <div class="navbar">
+    <h2>My Profile</h2>
+    <button class="btn" onclick="logout()">Logout</button>
+  </div>
+
+  <div class="container">
+
+    <!-- Profile Card -->
+    <div class="card">
+      <h2>👤 Personal Details</h2>
+
+      <div class="info"><span class="label">Name:</span> <span id="name">User</span></div>
+      <div class="info"><span class="label">Age:</span> <span id="age">--</span></div>
+      <div class="info"><span class="label">Phone:</span> <span id="phone">--</span></div>
+    </div>
+
+    <!-- Address -->
+    <div class="card">
+      <h2>🏠 Address</h2>
+      <div class="info" id="address">No address added</div>
+    </div>
+
+    <!-- Aadhaar -->
+    <div class="card">
+      <h2>🪪 Aadhaar Verification</h2>
+      <div class="info" id="aadhaar">XXXX XXXX XXXX</div>
+      <div class="info"><b>Status:</b> Verified ✔</div>
+    </div>
+
+    <!-- Requests Summary -->
+    <div class="card">
+      <h2>📦 Request Summary</h2>
+      <div class="info">Pending Requests: <span id="pending">0</span></div>
+      <div class="info">Approved Requests: <span id="approved">0</span></div>
+    </div>
+
+    <!-- Edit Profile -->
+    <div class="card">
+      <h2>✏ Edit Profile</h2>
+
+      <input type="text" id="editName" placeholder="Enter name">
+      <input type="number" id="editAge" placeholder="Enter age">
+      <input type="text" id="editPhone" placeholder="Enter phone">
+      <input type="text" id="editAddress" placeholder="Enter address">
+
+      <button class="btn" onclick="saveProfile()">Save Changes</button>
+    </div>
+
+  </div>
+
+ <script>
+  // Fetch real details from Flask SQLite Database
+  async function loadProfile() {
+    try {
+      let response = await fetch('/api/profile');
+      if (!response.ok) throw new Error('Failed to retrieve server data');
+      
+      let profile = await response.json();
+
+      // Update structural labels dynamically
+      document.getElementById("name").innerText = profile.name || "User";
+      document.getElementById("age").innerText = profile.age || "--";
+      document.getElementById("phone").innerText = profile.phone || "--";
+      document.getElementById("address").innerText = profile.address || "No address added";
+
+      // Bind data values directly to the update input fields
+      document.getElementById("editName").value = profile.name || "";
+      document.getElementById("editAge").value = profile.age || "";
+      document.getElementById("editPhone").value = profile.phone || "";
+      document.getElementById("editAddress").value = profile.address || "";
+
+      // Render actual database metrics calculated via your backend models
+      document.getElementById("pending").innerText = profile.pending || 0;
+      document.getElementById("approved").innerText = profile.approved || 0;
+    } catch (error) {
+      console.error('Profile Load Error:', error);
+    }
+  }
+
+  // Push modified data updates straight to Flask
+  async function saveProfile() {
+    let payload = {
+      name: document.getElementById("editName").value,
+      age: parseInt(document.getElementById("editAge").value) || 0,
+      phone: document.getElementById("editPhone").value,
+      address: document.getElementById("editAddress").value
+    };
+
+    try {
+      let response = await fetch('/api/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        alert("Profile updated successfully in SQLite!");
+        loadProfile();
+      } else {
+        alert("Failed to commit updates.");
+      }
+    } catch (error) {
+      console.error('Profile Save Error:', error);
+    }
+  }
+
+  function logout() {
+    alert("Logged out!");
+    window.location.href = "/";
+  }
+
+  // Trigger loading process when window renders
+  window.onload = loadProfile;
+</script>
+
+</body>
+</html>

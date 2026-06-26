@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request Medicine | MediShare</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#dff7f9,#eefaf5);
+padding:40px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:40px;
+border-radius:25px;
+box-shadow:0 10px 25px rgba(0,0,0,.1);
+}
+
+.logo{
+font-size:35px;
+font-weight:bold;
+text-align:center;
+margin-bottom:20px;
+}
+
+.logo span{
+color:#00a2ff;
+}
+
+h1{
+text-align:center;
+margin-bottom:30px;
+}
+
+.form-group{
+margin-bottom:20px;
+}
+
+label{
+display:block;
+margin-bottom:8px;
+font-weight:bold;
+}
+
+input,textarea{
+width:100%;
+padding:14px;
+border:1px solid #ddd;
+border-radius:12px;
+}
+
+textarea{
+height:100px;
+resize:none;
+}
+
+.btn{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+background:linear-gradient(to right,#00a2ff,#34c38f);
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+Medi<span>Share</span>
+</div>
+
+<h1>Request Medicine</h1>
+
+<div class="form-group">
+<label>📄 Upload Prescription (Mandatory)</label>
+<input type="file" id="prescription">
+</div>
+
+<div class="form-group">
+<label>💊 Required Medicine Name</label>
+<input type="text" id="medicine">
+</div>
+
+<div class="form-group">
+<label>🔢 Required Quantity</label>
+<input type="number" id="quantity">
+</div>
+
+<div class="form-group">
+<label>🏠 Delivery Address</label>
+<textarea id="address"></textarea>
+</div>
+
+<div class="form-group">
+<label>🪪 Aadhaar Number</label>
+<input type="text" id="aadhaar" maxlength="12">
+</div>
+
+<button class="btn" id="submitBtn" onclick="verifyRequest()">
+Next →
+</button>
+
+</div>
+
+<script>
+async function verifyRequest() {
+    let prescriptionFile = document.getElementById("prescription").files[0];
+    let medicine = document.getElementById("medicine").value.trim();
+    let quantity = document.getElementById("quantity").value.trim();
+    let address = document.getElementById("address").value.trim();
+    let aadhaar = document.getElementById("aadhaar").value.trim();
+
+    // 1. Frontend validation validations
+    if(!prescriptionFile) {
+        alert("Please upload prescription.");
+        return;
+    }
+
+    if(medicine === "") {
+        alert("Enter medicine name.");
+        return;
+    }
+
+    if(quantity === "") {
+        alert("Enter quantity.");
+        return;
+    }
+
+    if(address === "") {
+        alert("Enter address.");
+        return;
+    }
+
+    if(aadhaar.length !== 12 || isNaN(aadhaar)) {
+        alert("Enter valid 12-digit Aadhaar number.");
+        return;
+    }
+
+    // Disable button to prevent double submission click errors
+    let btn = document.getElementById("submitBtn");
+    btn.disabled = true;
+    btn.innerText = "Submitting Request...";
+
+    // 2. Build multi-part form data payload to send files + text fields
+    let formData = new FormData();
+    formData.append("prescription", prescriptionFile);
+    formData.append("medicine_name", medicine);
+    formData.append("quantity", quantity);
+    formData.append("address", address);
+   formData.append("aadhaar", aadhaar);
+
+    try {
+        // 3. Post data payload directly to our dynamic Flask endpoint
+        let response = await fetch("/request-medicine", {
+            method: "POST",
+            body: formData
+        });
+
+        let result = await response.json();
+
+        if (result.status === "success") {
+            alert(result.message);
+            // Dynamic routing redirect instead of static .html file link extensions
+            window.location.href = "/my-requests";
+        } else {
+            alert("Error: " + result.message);
+            btn.disabled = false;
+            btn.innerText = "Next →";
+        }
+    } catch (error) {
+        console.error("Submission Failure:", error);
+        alert("Failed to connect to the backend server engine.");
+        btn.disabled = false;
+        btn.innerText = "Next →";
+    }
+}
+</script>
+
+</body>
+</html>

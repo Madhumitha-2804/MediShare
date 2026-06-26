@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<h2>⚙️ Admin Dashboard</h2>
+
+<div class="card">
+    <p>Total Users: 100</p>
+    <p>Total NGOs: 20</p>
+    <p>Donations: 50</p>
+</div>
+
+<script>
+    
+    async function fetchLiveMetrics() {
+        try {
+            let res = await fetch('/api/admin/metrics');
+            if(res.ok) {
+                let data = await res.json();
+                document.querySelector('.card').innerHTML = `
+                    <p>Total Registered Users: ${data.total_users}</p>
+                    <p>Active Verified NGOs: ${data.total_ngos}</p>
+                    <p>Processed System Donations: ${data.total_donations}</p>
+                `;
+            }
+        } catch(e) { console.error("Could not fetch metrics", e); }
+    }
+    window.onload = fetchLiveMetrics;
+
+</script>
+
+</body>
+</html>

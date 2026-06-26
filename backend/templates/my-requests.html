@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>My Requests - MediShare</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+    }
+
+    /* Top Bar */
+    .navbar {
+      background: #1e88e5;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar h2 {
+      margin: 0;
+    }
+
+    .btn {
+      background: white;
+      color: #1e88e5;
+      padding: 8px 14px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    /* Card Style */
+    .request-card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .status {
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      display: inline-block;
+    }
+
+    .pending {
+      background: #fff3cd;
+      color: #856404;
+    }
+
+    .approved {
+      background: #d4edda;
+      color: #155724;
+    }
+
+    .rejected {
+      background: #f8d7da;
+      color: #721c24;
+    }
+
+    .empty {
+      text-align: center;
+      margin-top: 50px;
+      color: gray;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <!-- Navbar -->
+<div class="navbar">
+  <h2>My Requests</h2>
+
+  <button class="btn" onclick="location.href='request-medicine.html'">
+    <a href="/request-medicine" class="new-request-btn">+ New Request</a>
+  </button>
+</div>
+  <!-- Content -->
+  <div class="container">
+
+    <!-- Example Request 1 -->
+    <div class="request-card">
+      <h3>Paracetamol 500mg</h3>
+      <p><b>Quantity:</b> 10 strips</p>
+      <p><b>Reason:</b> Fever and body pain</p>
+      <p><b>Address:</b> Chennai, Tamil Nadu</p>
+      <p>
+        <span class="status pending">Pending</span>
+      </p>
+    </div>
+
+    <!-- Example Request 2 -->
+    <div class="request-card">
+      <h3>Amoxicillin 250mg</h3>
+      <p><b>Quantity:</b> 5 strips</p>
+      <p><b>Reason:</b> Infection treatment</p>
+      <p><b>Address:</b> Chennai, Tamil Nadu</p>
+      <p>
+        <span class="status approved">Approved</span>
+      </p>
+    </div>
+
+    <!-- If no requests -->
+    <!--
+    <div class="empty">
+      No requests found. Click "New Request" to create one.
+    </div>
+    -->
+<div id="requests-container">
+    <p>Loading your requests...</p>
+</div>
+<script>
+    // This function runs automatically when the page loads
+    document.addEventListener("DOMContentLoaded", function() {
+        fetch('/api/my-requests')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // See the data in your browser's Inspect Console
+                const container = document.getElementById('requests-container');
+                
+                // Clear any existing loading text
+                container.innerHTML = '';
+                
+                // Loop through the data and add it to the page
+                data.requests.forEach(req => {
+                    container.innerHTML += `
+                        <div class="request-card">
+                            <h3>${req.medicine_name}</h3>
+                            <p>Status: ${req.status}</p>
+                            <p>Quantity: ${req.quantity}</p>
+                            <p>Address: ${req.address}</p>
+                        </div>
+                    `;
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+</script>
+
+
+  </div>
+
+</body>
+</html>

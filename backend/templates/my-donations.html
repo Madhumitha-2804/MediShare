@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Donations | MediShare</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#dff7f9,#eefaf5);
+min-height:100vh;
+padding:40px;
+}
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:white;
+padding:20px 40px;
+border-radius:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.08);
+margin-bottom:30px;
+}
+
+.logo{
+font-size:32px;
+font-weight:bold;
+}
+
+.logo span{
+color:#00a2ff;
+}
+
+.back-btn{
+text-decoration:none;
+background:linear-gradient(to right,#00a2ff,#34c38f);
+color:white;
+padding:10px 20px;
+border-radius:10px;
+}
+
+.heading{
+text-align:center;
+margin-bottom:30px;
+}
+
+.heading h1{
+color:#0b1d2a;
+margin-bottom:10px;
+}
+
+.heading p{
+color:gray;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+gap:25px;
+}
+
+.card{
+background:white;
+border-radius:20px;
+padding:25px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-5px);
+}
+
+.status{
+display:inline-block;
+padding:8px 15px;
+border-radius:20px;
+font-size:14px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.pending{
+background:#fff3cd;
+color:#856404;
+}
+
+.approved{
+background:#d4edda;
+color:#155724;
+}
+
+.rejected{
+background:#f8d7da;
+color:#721c24;
+}
+
+.info{
+margin-bottom:10px;
+}
+
+.label{
+font-weight:bold;
+color:#0b1d2a;
+}
+
+.empty{
+background:white;
+padding:50px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+margin-top:30px;
+}
+
+.donate-btn{
+display:inline-block;
+margin-top:20px;
+padding:12px 25px;
+border-radius:12px;
+text-decoration:none;
+color:white;
+background:linear-gradient(to right,#00a2ff,#34c38f);
+font-weight:bold;
+}
+
+</style>
+</head>
+<body>
+
+<div class="navbar">
+
+<div class="logo">
+Medi<span>Share</span>
+</div>
+
+<a href="/donor-dashboard" class="back-btn">
+← Dashboard
+</a>
+
+</div>
+
+<div class="heading">
+<h1>📦 My Donations</h1>
+<p>View all medicines you have donated</p>
+</div>
+
+<div class="empty">
+
+<h2>No Donations Yet 💊</h2>
+
+<p style="margin-top:15px;color:gray;">
+You haven't donated any medicines yet.
+</p>
+
+<a href="/donate-medicine" class="donate-btn">
+Donate Medicine
+</a>
+
+</div>
+
+</body>
+</html>

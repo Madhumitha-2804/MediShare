@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Profile | MediShare</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#dff7f9,#eefaf5);
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:30px;
+}
+
+.profile-card{
+width:500px;
+background:white;
+padding:40px;
+border-radius:25px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+.logo{
+text-align:center;
+font-size:35px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.logo span{
+color:#00a2ff;
+}
+
+h2{
+text-align:center;
+margin-bottom:25px;
+color:#0b1d2a;
+}
+
+.profile-pic{
+width:120px;
+height:120px;
+border-radius:50%;
+background:#f2f2f2;
+margin:0 auto 25px;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:50px;
+}
+
+.input-group{
+margin-bottom:20px;
+}
+
+label{
+display:block;
+margin-bottom:8px;
+font-weight:bold;
+}
+
+input, textarea{
+width:100%;
+padding:12px;
+border:1px solid #ddd;
+border-radius:12px;
+font-size:15px;
+}
+
+textarea{
+resize:none;
+height:80px;
+}
+
+.btn{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:linear-gradient(to right,#00a2ff,#34c38f);
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+margin-top:10px;
+}
+
+.back-btn{
+display:block;
+text-align:center;
+margin-top:20px;
+text-decoration:none;
+color:#00a2ff;
+font-weight:bold;
+}
+
+.success{
+display:none;
+margin-top:15px;
+padding:12px;
+background:#d4edda;
+color:#155724;
+border-radius:10px;
+text-align:center;
+}
+
+</style>
+</head>
+<body>
+
+<div class="profile-card">
+
+<div class="logo">
+Medi<span>Share</span>
+</div>
+
+<h2>My Profile 👤</h2>
+
+<div class="profile-pic">
+👤
+</div>
+
+<div class="input-group">
+<label>Full Name</label>
+<input type="text" id="name" placeholder="Enter your name">
+</div>
+
+<div class="input-group">
+<label>Email</label>
+<input type="email" id="email" placeholder="Enter your email">
+</div>
+
+<div class="input-group">
+<label>Phone Number</label>
+<input type="tel" id="phone" placeholder="Enter phone number">
+</div>
+
+<div class="input-group">
+<label>Address</label>
+<textarea id="address" placeholder="Enter your address"></textarea>
+</div>
+
+<button class="btn" onclick="saveProfile()">
+Save Profile
+</button>
+
+<div class="success" id="successMsg">
+✅ Profile Updated Successfully
+</div>
+
+<a href="/donor-dashboard" class="back-btn">
+← Back to Dashboard
+</a>
+
+</div>
+
+<script>
+
+function saveProfile(){
+
+let name=document.getElementById("name").value.trim();
+let email=document.getElementById("email").value.trim();
+let phone=document.getElementById("phone").value.trim();
+let address=document.getElementById("address").value.trim();
+
+if(name===""){
+alert("Please enter your name");
+return;
+}
+
+if(email===""){
+alert("Please enter your email");
+return;
+}
+
+if(phone===""){
+alert("Please enter your phone number");
+return;
+}
+
+if(address===""){
+alert("Please enter your address");
+return;
+}
+
+document.getElementById("successMsg").style.display="block";
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Select Role | MediShare</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#dff7f9,#eefaf5);
+}
+
+.container{
+background:white;
+padding:50px;
+border-radius:30px;
+box-shadow:0 15px 40px rgba(0,0,0,.1);
+text-align:center;
+width:700px;
+}
+
+.logo{
+font-size:38px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.logo span{
+color:#00a2ff;
+}
+
+h1{
+margin-bottom:10px;
+color:#0b1d2a;
+}
+
+p{
+color:gray;
+margin-bottom:35px;
+}
+
+.roles{
+display:flex;
+gap:25px;
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.card{
+width:250px;
+padding:30px;
+border-radius:20px;
+background:#f8fbff;
+cursor:pointer;
+transition:0.3s;
+border:2px solid transparent;
+text-decoration:none;
+color:#0b1d2a;
+}
+
+.card:hover{
+transform:translateY(-8px);
+border-color:#00a2ff;
+box-shadow:0 10px 25px rgba(0,162,255,.2);
+}
+
+.icon{
+font-size:55px;
+margin-bottom:15px;
+}
+
+.card h2{
+margin-bottom:10px;
+}
+
+.card p{
+font-size:14px;
+margin-bottom:0;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="logo">
+Medi<span>Share</span>
+</div>
+
+<h1>Select Your Role</h1>
+
+<p>Choose how you would like to use MediShare</p>
+
+<div class="roles">
+
+<a href="/donor-dashboard" class="card">
+<div class="icon">💊</div>
+<h2>Donor</h2>
+<p>
+Donate unused medicines and help people in need.
+</p>
+</a>
+
+<a href="/consumer-dashboard" class="card">
+<div class="icon">❤️</div>
+<h2>Consumer</h2>
+<p>
+Request medicines and receive support from donors.
+</p>
+</a>
+</div>
+
+</div>
+
+</body>
+</html>

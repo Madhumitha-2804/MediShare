@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up | MediShare</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#dff7f9,#eefaf5);
+}
+
+.card{
+    width:430px;
+    background:white;
+    padding:40px;
+    border-radius:30px;
+    box-shadow:0 15px 40px rgba(0,0,0,.1);
+}
+
+.logo{
+    text-align:center;
+    font-size:35px;
+    font-weight:bold;
+    margin-bottom:10px;
+}
+
+.logo span{
+    color:#00a2ff;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:10px;
+}
+
+.subtitle{
+    text-align:center;
+    color:gray;
+    margin-bottom:25px;
+}
+
+.input-box{
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    border:none;
+    outline:none;
+    background:#f4f7fb;
+    border-radius:15px;
+    font-size:15px;
+}
+
+.password-container{
+    position:relative;
+}
+
+.eye{
+    position:absolute;
+    right:15px;
+    top:16px;
+    cursor:pointer;
+}
+
+#strength{
+    display:block;
+    margin-top:8px;
+    font-size:14px;
+    font-weight:bold;
+}
+
+.password-hint{
+    margin-top:12px;
+    color:#666;
+    font-size:13px;
+    line-height:1.8;
+}
+
+.password-hint ul{
+    margin-left:20px;
+}
+
+button{
+    width:100%;
+    padding:15px;
+    border:none;
+    border-radius:15px;
+    background:linear-gradient(to right,#00a2ff,#34c38f);
+    color:white;
+    font-size:17px;
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.bottom{
+    margin-top:25px;
+    text-align:center;
+    color:gray;
+}
+
+.bottom a{
+    color:#00a2ff;
+    text-decoration:none;
+    font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+
+<div class="logo">
+Medi<span>Share</span>
+</div>
+
+<h2>Create Account ✨</h2>
+<p class="subtitle">Join MediShare and help save lives</p>
+
+<div class="input-box">
+<input type="text" id="name" placeholder="Full Name">
+</div>
+
+<div class="input-box">
+<input type="email" id="email" placeholder="Email Address">
+</div>
+
+<div class="input-box">
+
+<div class="password-container">
+<input type="password"
+id="password"
+placeholder="Password"
+onkeyup="checkPassword()">
+
+<span class="eye" onclick="togglePassword()">👁</span>
+</div>
+
+<span id="strength"></span>
+
+<div class="password-hint">
+Use a strong password with:
+<ul>
+<li>✔ Minimum 8 characters</li>
+<li>✔ One uppercase letter (A-Z)</li>
+<li>✔ One lowercase letter (a-z)</li>
+<li>✔ One number (0-9)</li>
+<li>✔ One special character (@, #, $, %, &, !)</li>
+</ul>
+</div>
+
+</div>
+
+<div class="input-box">
+<input type="password"
+id="confirmPassword"
+placeholder="Confirm Password">
+</div>
+
+<button onclick="validateForm()">
+Create Account
+</button>
+
+<div class="bottom">
+Already have an account?
+<a href="/login">Sign In</a>
+</div>
+
+</div>
+
+<script>
+
+function togglePassword(){
+
+let pass=document.getElementById("password");
+
+if(pass.type=="password")
+pass.type="text";
+else
+pass.type="password";
+
+}
+
+function checkPassword(){
+
+let password=document.getElementById("password").value;
+let strength=document.getElementById("strength");
+
+let strongRegex=
+/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%&!]).{8,}$/;
+
+if(password.length==0){
+strength.innerHTML="";
+}
+
+else if(password.length<8){
+strength.innerHTML="❌ Weak Password";
+strength.style.color="red";
+}
+
+else if(strongRegex.test(password)){
+strength.innerHTML="✅ Strong Password";
+strength.style.color="green";
+}
+
+else{
+strength.innerHTML="⚠ Medium Password";
+strength.style.color="orange";
+}
+
+}
+
+function validateForm(){
+
+let name=document.getElementById("name").value.trim();
+let email=document.getElementById("email").value.trim();
+let password=document.getElementById("password").value;
+let confirm=document.getElementById("confirmPassword").value;
+
+let emailPattern=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+let passwordPattern=
+/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@#$%&!]).{8,}$/;
+
+if(name==""){
+alert("Please enter your full name");
+return;
+}
+
+if(!emailPattern.test(email)){
+alert("Enter a valid email address");
+return;
+}
+
+if(!passwordPattern.test(password)){
+alert(
+"Use a strong password with:\n\n"+
+"• Minimum 8 characters\n"+
+"• One uppercase letter\n"+
+"• One lowercase letter\n"+
+"• One number\n"+
+"• One special character"
+);
+return;
+}
+
+if(password!=confirm){
+alert("Passwords do not match");
+return;
+}
+
+alert("Account created successfully 🎉");
+window.location.href = "/role-selection";
+
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Consumer Dashboard | MediShare</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#dff7f9,#eefaf5);
+min-height:100vh;
+padding:40px;
+}
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:white;
+padding:20px 40px;
+border-radius:20px;
+box-shadow:0 5px 20px rgba(0,0,0,0.08);
+margin-bottom:40px;
+}
+
+.logo{
+font-size:32px;
+font-weight:bold;
+}
+
+.logo span{
+color:#00a2ff;
+}
+
+.home-btn{
+text-decoration:none;
+padding:10px 20px;
+border-radius:10px;
+background:linear-gradient(to right,#00a2ff,#34c38f);
+color:white;
+font-weight:bold;
+}
+
+.welcome{
+text-align:center;
+margin-bottom:40px;
+}
+
+.welcome h1{
+font-size:40px;
+color:#0b1d2a;
+margin-bottom:10px;
+}
+
+.welcome p{
+color:gray;
+font-size:18px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+max-width:1000px;
+margin:auto;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:20px;
+text-decoration:none;
+color:black;
+text-align:center;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+transition:0.3s;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.icon{
+font-size:50px;
+margin-bottom:15px;
+}
+
+.card h2{
+margin-bottom:10px;
+color:#0b1d2a;
+}
+
+.card p{
+color:gray;
+line-height:1.5;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+<div class="logo">
+Medi<span>Share</span>
+</div>
+
+<a href="index.html" class="home-btn">
+🏠 Home
+</a>
+
+</div>
+
+<div class="welcome">
+
+<h1>Consumer Dashboard</h1>
+
+<p>
+Request medicines and manage your requests.
+</p>
+
+</div>
+
+<div class="dashboard-grid">
+
+    <a href="/request-medicine" class="card">
+        <div class="icon">💊</div>
+        <h2>Request Medicine</h2>
+        <p>Search for available medicines and submit a request.</p>
+    </a>
+
+    <a href="/my-requests" class="card">
+        <div class="icon">📦</div>
+        <h2>My Requests</h2>
+        <p>Track all medicine requests and their status.</p>
+    </a>
+
+    <a href="/consumer-profile" class="card">
+        <div class="icon">👤</div>
+        <h2>My Profile</h2>
+        <p>Update your address, phone number, and account details.</p>
+    </a>
+<a href="/role-selection" class="logout-btn"> 
+    <div class="icon">🔁</div>
+    <p>Switch Role / Logout</p>
+</a>
+
+</div>
+
+</body>
+</html>

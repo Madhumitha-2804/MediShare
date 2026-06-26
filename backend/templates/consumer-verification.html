@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verification | MediShare</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#dff7f9,#eefaf5);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.container{
+background:white;
+width:700px;
+padding:40px;
+border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.logo{
+font-size:35px;
+font-weight:bold;
+margin-bottom:15px;
+}
+
+.logo span{
+color:#00a2ff;
+}
+
+h1{
+color:#0b1d2a;
+margin-bottom:10px;
+}
+
+.subtitle{
+color:gray;
+margin-bottom:30px;
+}
+
+.verify-box{
+background:#f5f9ff;
+padding:20px;
+margin-bottom:15px;
+border-radius:15px;
+font-size:18px;
+font-weight:bold;
+color: #555;
+}
+
+.success {
+background: #eefaf5;
+color:#28a745;
+border: 1px solid #c3e6cb;
+}
+
+.pending {
+background: #fff3cd;
+color: #856404;
+border: 1px solid #ffeeba;
+}
+
+.btn{
+margin-top:25px;
+padding:15px 30px;
+border:none;
+border-radius:12px;
+background:linear-gradient(to right,#00a2ff,#34c38f);
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.btn:hover{
+opacity:0.9;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="logo">
+Medi<span>Share</span>
+</div>
+
+<h1>Consumer Verification</h1>
+
+<p class="subtitle">
+Checking live server for your validation pipeline...
+</p>
+
+<div id="prescriptionBox" class="verify-box">
+⏳ Checking Prescription Status
+</div>
+
+<div id="idVerifyBox" class="verify-box">
+⏳ Checking Verification Status
+</div>
+
+<div id="requestStatusBox" class="verify-box">
+⏳ Syncing Request Pipeline
+</div>
+
+<div id="ngoBox" class="verify-box" style="display:none;">
+📦 Your request has been sent to partnered NGOs.
+</div>
+
+<button class="btn" onclick="goToDashboard()">
+Back to Dashboard
+</button>
+
+</div>
+
+<script>
+// Load dynamic profile contextual information from your database
+async function checkLiveVerificationStatus() {
+    try {
+        let response = await fetch('/api/profile');
+        if (!response.ok) throw new Error('Database connection failed');
+        
+        let data = await response.json();
+
+        // 1. Render identity validation status
+        let idBox = document.getElementById("idVerifyBox");
+        if (data.aadhaar_status === "Verified" || data.aadhaar_status === "Approved") {
+            idBox.className = "verify-box success";
+            idBox.innerText = "✅ Verification Completed";
+        } else {
+            idBox.className = "verify-box pending";
+            idBox.innerText = "⏳ Identity Verification Pending";
+        }
+
+        // 2. Render Request Metrics
+        let prescriptionBox = document.getElementById("prescriptionBox");
+        let statusBox = document.getElementById("requestStatusBox");
+        let ngoBox = document.getElementById("ngoBox");
+
+        if (data.approved > 0) {
+            prescriptionBox.className = "verify-box success";
+            prescriptionBox.innerText = "✅ Prescription Verified";
+            
+            statusBox.className = "verify-box success";
+            statusBox.innerText = "✅ Request Approved";
+            
+            ngoBox.style.display = "block"; // Show distribution message
+        } else if (data.pending > 0) {
+            prescriptionBox.className = "verify-box pending";
+            prescriptionBox.innerText = "⏳ Prescription Under Manual Review";
+            
+            statusBox.className = "verify-box pending";
+            statusBox.innerText = "⏳ Request Awaiting NGO Confirmation";
+        } else {
+            prescriptionBox.innerText = "❌ No Active Requests Found";
+            statusBox.innerText = "💡 Visit your Dashboard to Upload an Image";
+        }
+
+        // Clean up title text
+        document.querySelector(".subtitle").innerText = "Your active medicine request overview.";
+
+    } catch (error) {
+        console.error('Error syncing verification UI:', error);
+        document.querySelector(".subtitle").innerText = "Offline Mode: Unable to connect to medishare.db";
+    }
+}
+
+function goToDashboard() {
+    window.location.href = "/consumer-dashboard";
+}
+
+// Run immediately upon render
+window.onload = checkLiveVerificationStatus;
+</script>
+
+</body>
+</html>

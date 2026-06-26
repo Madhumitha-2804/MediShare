@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donor Dashboard | MediShare</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#dff7f9,#eefaf5);
+min-height:100vh;
+}
+
+.navbar{
+background:white;
+padding:20px 50px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.logo{
+font-size:32px;
+font-weight:bold;
+}
+
+.logo span{
+color:#00a2ff;
+}
+
+.logout{
+background:#ff5c5c;
+color:white;
+padding:10px 20px;
+border:none;
+border-radius:10px;
+cursor:pointer;
+}
+
+.container{
+padding:40px;
+}
+
+.welcome{
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 20px rgba(0,0,0,.08);
+margin-bottom:30px;
+}
+
+.welcome h1{
+color:#0b1d2a;
+margin-bottom:10px;
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.card{
+background:white;
+padding:30px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 10px 20px rgba(0,0,0,.08);
+transition:.3s;
+text-decoration:none;
+color:black;
+}
+
+.card:hover{
+transform:translateY(-8px);
+}
+
+.icon{
+font-size:50px;
+margin-bottom:15px;
+}
+
+.card h2{
+margin-bottom:10px;
+color:#0b1d2a;
+}
+
+.card p{
+color:gray;
+line-height:1.5;
+}
+</style>
+
+</head>
+<body>
+
+<div class="navbar">
+<div class="logo">
+Medi<span>Share</span>
+</div>
+
+<button class="logout" onclick="logout()">
+Logout
+</button>
+</div>
+
+<div class="container">
+
+<div class="welcome">
+<h1>Welcome Donor 👋</h1>
+<p>
+Thank you for helping people by donating medicines.
+</p>
+</div>
+
+<div class="cards">
+
+<div class="cards">
+
+<a href="/donate-medicine" class="card">
+    <div class="icon">💊</div>
+    <h2>Donate Medicine</h2>
+</a>
+
+<a href="/my-donations" class="card">
+    <div class="icon">📦</div>
+    <h2>My Donations</h2>
+</a>
+
+<a href="/profile" class="card">
+    <div class="icon">👤</div>
+    <h2>Profile</h2>
+    <p>Manage your account details.</p>
+</a>
+
+<a href="/index" class="card">
+    <div class="icon">🏠</div>
+    <h2>Home</h2>
+    <p>Return to the MediShare homepage.</p>
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+function logout(){
+
+if(confirm("Are you sure you want to logout?")){
+
+window.location.href="/index";
+
+}
+
+}
+
+async function submitMedicineDonation() {
+    let fileInput = document.getElementById("medicineImagesInput");
+    let locationInput = document.getElementById("donorLocation").value;
+    let qtyInput = document.getElementById("quantity").value;
+
+    let formData = new FormData();
+    formData.append("donor_location", locationInput); // Ensure this matches app.py
+    formData.append("quantity", qtyInput);
+    
+    for (let file of fileInput.files) {
+        formData.append("images", file);
+    }
+
+    // Use a relative path: /verify-medicine
+    let response = await fetch("/verify-medicine", {
+        method: "POST",
+        body: formData 
+    });
+    
+    let result = await response.json();
+    if(result.status === "success") {
+         console.log("Success:", result);
+    } else {
+         console.error("Error:", result.message);
+    }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Donate Medicine | MediShare</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:linear-gradient(135deg,#dff7f9,#eefaf5);
+min-height:100vh;
+padding:40px;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+background:white;
+padding:40px;
+border-radius:25px;
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
+}
+
+.logo{
+font-size:35px;
+font-weight:bold;
+text-align:center;
+margin-bottom:10px;
+}
+
+.logo span{
+color:#00a2ff;
+}
+
+h1{
+text-align:center;
+margin-bottom:10px;
+color:#0b1d2a;
+}
+
+.subtitle{
+text-align:center;
+color:gray;
+margin-bottom:35px;
+}
+
+.section-title{
+font-size:22px;
+font-weight:bold;
+margin-bottom:15px;
+color:#0b1d2a;
+}
+
+.upload-box{
+border:2px dashed #00a2ff;
+padding:30px;
+text-align:center;
+border-radius:20px;
+background:#f8fcff;
+margin-bottom:20px;
+}
+
+input[type="file"]{
+margin-top:15px;
+}
+
+.btn{
+background:linear-gradient(to right,#00a2ff,#34c38f);
+color:white;
+border:none;
+padding:14px 25px;
+border-radius:12px;
+cursor:pointer;
+font-size:16px;
+font-weight:bold;
+margin-top:15px;
+}
+
+.ocr-box{
+background:#f6fbff;
+padding:20px;
+border-radius:15px;
+margin-top:20px;
+display:none;
+}
+
+.ocr-box p{
+margin:10px 0;
+}
+
+.form-group{
+margin-top:20px;
+}
+
+label{
+display:block;
+margin-bottom:8px;
+font-weight:bold;
+}
+
+input,
+textarea{
+width:100%;
+padding:14px;
+border:1px solid #ddd;
+border-radius:12px;
+font-size:15px;
+}
+
+textarea{
+resize:none;
+height:100px;
+}
+
+.note{
+margin-top:20px;
+background:#eef9f2;
+padding:15px;
+border-radius:12px;
+color:#333;
+}
+
+.submit-btn{
+width:100%;
+margin-top:30px;
+padding:16px;
+font-size:18px;
+background:linear-gradient(to right,#00a2ff,#34c38f);
+border:none;
+border-radius:15px;
+color:white;
+cursor:pointer;
+font-weight:bold;
+}
+
+.success{
+display:none;
+margin-top:20px;
+padding:15px;
+background:#d4edda;
+color:#155724;
+border-radius:12px;
+text-align:center;
+font-weight:bold;
+}
+
+</style>
+</head>
+<body>
+
+<div class="container">
+
+<div class="logo">
+Medi<span>Share</span>
+</div>
+
+<h1>Donate Medicine</h1>
+
+<p class="subtitle">
+Upload medicine image and let OCR extract important details automatically.
+</p>
+
+<div class="section-title">
+📷 Upload Medicine Image
+</div>
+
+<div class="upload-box">
+
+<p>Select a medicine image</p>
+
+<input type="file" id="medicineImage">
+
+<br>
+
+<button class="btn" onclick="extractOCR()">
+Extract Details
+</button>
+
+</div>
+
+<div class="ocr-box" id="ocrBox">
+
+<h3>🔍 OCR Extracted Details</h3>
+
+<p><b>Medicine Name:</b> Paracetamol 650mg</p>
+
+<p><b>Expiry Date:</b> 12/2027</p>
+
+<p><b>Batch Number:</b> PCM45872</p>
+
+<p><b>Manufacturer:</b> ABC Pharma</p>
+
+</div>
+
+
+
+<div class="form-group">
+<label>💊 How many tablets do you have?</label>
+<input type="number" id="quantity" placeholder="Enter quantity">
+</div>
+
+<div class="form-group">
+<label>📄 Prescription Image (Optional)</label>
+<input type="file">
+</div>
+
+<div class="form-group">
+<label>🏠 Donor Address</label>
+<textarea id="address" placeholder="Enter complete address"></textarea>
+</div>
+
+<button class="submit-btn" onclick="submitDonation()">
+Submit Donation
+</button>
+
+<div class="success" id="successMsg">
+✅ Donation Submitted Successfully!<br>
+Your donation has been sent for NGO verification.
+</div>
+
+</div>
+
+<script>
+
+function extractOCR(){
+
+    document.getElementById("ocrBox").style.display = "block";
+
+}
+
+function submitDonation(){
+
+    let medicineImage =
+        document.getElementById("medicineImage").files.length;
+
+    let quantity =
+        document.getElementById("quantity").value.trim();
+
+    let address =
+        document.getElementById("address").value.trim();
+
+    if(medicineImage === 0){
+
+        alert("Please upload a medicine image.");
+        return;
+
+    }
+
+    if(quantity === ""){
+
+        alert("Please enter the number of tablets.");
+        return;
+
+    }
+
+    if(address === ""){
+
+        alert("Please enter your address.");
+        return;
+
+    }
+
+    document.getElementById("successMsg").style.display = "block";
+
+    setTimeout(function(){
+
+        window.location.href = "/donor-dashboard";
+
+    },3000);
+
+}
+
+</script>
+
+</body>
+</html>

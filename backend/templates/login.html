@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign In | MediShare</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:linear-gradient(135deg,#dff7f9,#eefaf5);
+overflow:hidden;
+}
+
+.card{
+width:400px;
+background:white;
+padding:40px;
+border-radius:30px;
+box-shadow:0 15px 40px rgba(0,0,0,.1);
+}
+
+.logo{
+text-align:center;
+font-size:35px;
+font-weight:bold;
+margin-bottom:10px;
+}
+
+.logo span{
+color:#00a2ff;
+}
+
+h2{
+text-align:center;
+margin-bottom:8px;
+}
+
+p{
+text-align:center;
+color:gray;
+margin-bottom:30px;
+}
+
+.input-box{
+margin-bottom:20px;
+}
+
+input{
+width:100%;
+padding:15px;
+border:none;
+background:#f5f7fb;
+border-radius:15px;
+font-size:15px;
+outline:none;
+}
+
+button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:15px;
+background:linear-gradient(to right,#00a2ff,#34c38f);
+color:white;
+font-size:17px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.bottom{
+margin-top:25px;
+text-align:center;
+color:gray;
+}
+
+.bottom a{
+color:#00a2ff;
+text-decoration:none;
+font-weight:bold;
+}
+</style>
+</head>
+<body>
+
+<div class="card">
+
+<div class="logo">
+Medi<span>Share</span>
+</div>
+
+<h2>Welcome Back 👋</h2>
+<p>Sign in to continue</p>
+
+<div class="input-box">
+<input type="email" placeholder="Email Address">
+</div>
+
+<div class="input-box">
+<input type="password" placeholder="Password">
+</div>
+
+<button onclick="login()">Sign In</button>
+
+<div class="bottom">
+Don't have an account?
+<a href="/register">Sign Up</a>
+</div>
+
+</div>
+
+<script>
+function login() {
+    // 1. Inform the user of a simulated successful local check
+    alert("Login Successful!");
+
+    // 2. Execute clean routing redirect straight to the Flask app view layout
+    window.location.href = "/role-selection";
+}
+</script>
+
+</body>
+</html>
