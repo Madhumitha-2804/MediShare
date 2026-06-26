@@ -1,4 +1,5 @@
 from database import db
+from datetime import datetime
 
 class User(db.Model):
     __tablename__ = 'users'
@@ -31,12 +32,29 @@ class MedicineDonation(db.Model):
     expiry_date = db.Column(db.String(50), nullable=True)
     status = db.Column(db.String(50), nullable=False)
     reason = db.Column(db.Text, nullable=True)
+    donation_date = db.Column(
+        db.DateTime,
+        default=datetime.utcnow
+    )
 
 class MedicineRequest(db.Model):
-    __tablename__ = 'medicine_requests'
+
     id = db.Column(db.Integer, primary_key=True)
-    medicine_name = db.Column(db.String(100), nullable=False)
-    quantity = db.Column(db.String(50)) # Add this
-    reason = db.Column(db.Text)         # Add this
-    address = db.Column(db.Text)        # Add this
-    status = db.Column(db.String(50), default='Pending')
+
+    medicine_name = db.Column(db.String(100))
+
+    quantity = db.Column(db.Integer)
+
+    reason = db.Column(db.String(200))
+
+    address = db.Column(db.String(300))
+
+    status = db.Column(
+        db.String(50),
+        default="Pending"
+    )
+
+    user_id = db.Column(
+        db.Integer,
+        db.ForeignKey('users.id')
+    )

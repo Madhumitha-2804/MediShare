@@ -190,16 +190,28 @@ Extract Details
 
 <h3>🔍 OCR Extracted Details</h3>
 
-<p><b>Medicine Name:</b> Paracetamol 650mg</p>
+<p><b>Medicine Name:</b>
+<span id="medicineName">-</span>
+</p>
 
-<p><b>Expiry Date:</b> 12/2027</p>
+<p><b>Expiry Date:</b>
+<span id="expiryDate">-</span>
+</p>
 
-<p><b>Batch Number:</b> PCM45872</p>
+<p><b>Batch Number:</b>
+<span id="batchNumber">-</span>
+</p>
 
-<p><b>Manufacturer:</b> ABC Pharma</p>
+<p><b>Manufacturer:</b>
+<span id="manufacturer">-</span>
+</p>
 
 </div>
 
+<div class=""form-group">
+<label>💊Medicine Name</label>
+<input type="text" id="medicineName" placeholder="Enter medicine name">
+</div>
 
 
 <div class="form-group">
@@ -232,49 +244,193 @@ Your donation has been sent for NGO verification.
 
 function extractOCR(){
 
-    document.getElementById("ocrBox").style.display = "block";
+let image =
+document.getElementById("medicineImage").files[0];
+
+
+if(!image){
+
+alert("Upload image first");
+return;
+
+}
+
+
+let formData = new FormData();
+
+formData.append(
+"images",
+image
+);
+
+
+
+fetch("/verify-medicine",{
+
+method:"POST",
+
+body:formData
+
+})
+
+
+.then(res=>res.json())
+
+
+.then(data=>{
+
+
+console.log(data);
+
+
+
+let result =
+data.verification_result;
+
+
+
+document.getElementById(
+"medicineName"
+).innerText =
+result.medicine_name;
+
+
+
+document.getElementById(
+"expiryDate"
+).innerText =
+result.expiry_date;
+
+
+
+document.getElementById(
+"batchNumber"
+).innerText =
+result.batch_number || "Not detected";
+
+
+
+document.getElementById(
+"manufacturer"
+).innerText =
+result.manufacturer || "Not detected";
+
+
+
+document.getElementById(
+"ocrBox"
+).style.display="block";
+
+
+
+})
+
+
+.catch(err=>{
+
+console.log(err);
+
+alert(
+"OCR failed"
+);
+
+});
+
 
 }
 
 function submitDonation(){
 
     let medicineImage =
-        document.getElementById("medicineImage").files.length;
+    document.getElementById("medicineImage").files[0];
+
+    let medicineName =
+    document.getElementById("medicineName").value;
+
 
     let quantity =
-        document.getElementById("quantity").value.trim();
+    document.getElementById("quantity").value;
+
 
     let address =
-        document.getElementById("address").value.trim();
+    document.getElementById("address").value;
 
-    if(medicineImage === 0){
 
-        alert("Please upload a medicine image.");
+
+    if(!medicineImage){
+
+        alert("Please upload medicine image");
         return;
-
     }
 
-    if(quantity === ""){
 
-        alert("Please enter the number of tablets.");
-        return;
+    let formData = new FormData();
 
-    }
 
-    if(address === ""){
+    formData.append(
+        "images",
+        medicineImage
+    );
 
-        alert("Please enter your address.");
-        return;
 
-    }
+    formData.append(
+        "quantity",
+        quantity
+    );
 
-    document.getElementById("successMsg").style.display = "block";
 
-    setTimeout(function(){
+    formData.append(
+        "address",
+        address
+    );
 
-        window.location.href = "/donor-dashboard";
 
-    },3000);
+
+    fetch("/verify-medicine",{
+
+        method:"POST",
+
+        body:formData
+
+    })
+
+    .then(response=>response.json())
+
+    .then(data=>{
+
+
+        console.log(data);
+
+
+        document.getElementById(
+            "successMsg"
+        ).style.display="block";
+
+
+        setTimeout(()=>{
+
+
+            window.location.href =
+            "/my-donations";
+
+
+        },2000);
+
+
+
+    })
+
+
+    .catch(error=>{
+
+        alert(
+        "Donation failed"
+        );
+
+        console.log(error);
+
+    });
+
 
 }
 

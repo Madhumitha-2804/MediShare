@@ -149,10 +149,75 @@ Medi<span>Share</span>
 
 </div>
 
+
 <div class="heading">
 <h1>📦 My Donations</h1>
 <p>View all medicines you have donated</p>
 </div>
+
+{% if donations %}
+
+<div class="cards">
+
+{% for donation in donations %}
+
+<div class="card">
+
+    <div class="info">
+
+<span class="label">
+Donation Date:
+</span>
+
+{{ donation.donation_date.strftime('%d-%m-%Y') }}
+
+</div>
+
+<span class="status approved">
+{{ donation.status }}
+</span>
+
+
+<div class="info">
+<span class="label">
+Medicine:
+</span>
+
+{{ donation.medicine_name }}
+
+</div>
+
+
+<div class="info">
+<span class="label">
+Expiry:
+</span>
+
+{{ donation.expiry_date }}
+
+</div>
+
+
+<div class="info">
+<span class="label">
+Reason:
+</span>
+
+{{ donation.reason }}
+
+</div>
+
+
+</div>
+
+
+{% endfor %}
+
+</div>
+
+
+{% else %}
+
 
 <div class="empty">
 
@@ -162,10 +227,16 @@ Medi<span>Share</span>
 You haven't donated any medicines yet.
 </p>
 
+
 <a href="/donate-medicine" class="donate-btn">
 Donate Medicine
 </a>
 
+
+</div>
+
+
+{% endif %}
 </div>
 
 </body>
